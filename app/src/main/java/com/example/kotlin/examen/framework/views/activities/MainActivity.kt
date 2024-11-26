@@ -70,7 +70,7 @@ class MainActivity: AppCompatActivity() {
                 this,
                 { _, selectedYear, selectedMonth, selectedDay ->
                     // Actualizar el TextView con la fecha seleccionada
-                    val formattedDate = "$selectedYear-${selectedMonth + 1}-$selectedDay"
+                    val formattedDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay)
                     date = formattedDate
                     viewModel.getCovidList(formattedDate)
                 },
