@@ -23,6 +23,7 @@ class MainActivity: AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
     private val adapter : CountryAdapter = CountryAdapter()
+    lateinit var date: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,25 +41,20 @@ class MainActivity: AppCompatActivity() {
     }
 
     private fun initializeObservers() {
-/*
+        viewModel.covidObjectLiveData.observe(this){ covidObject ->
+            val mexicoData = covidObject!!.find { it.country == "Mexico" }
+            mexicoData?.let {
+                binding.cases.text = it.cases.total.toString()
+                binding.newcases.text = it.cases.new.toString()
+            }
+            setUpRecyclerView(covidObject!!)
+        }
+
         viewModel.toastMessage.observe(this) { message ->
             message?.let {
                 Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
-                // Limpiar el mensaje para evitar que se muestre de nuevo accidentalmente
-                //viewModel.clearToastMessage()
             }
         }
-
-        viewModel.options.observe(this) { options ->
-            val adapter = ArrayAdapter(
-                this,
-                R.layout.selected_session,
-                options.map { it.session }
-            ).apply {
-                setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            }
-            binding.sessionSelector.adapter = adapter
-        }*/
     }
 
     private fun initializeListeners() {
@@ -75,11 +71,12 @@ class MainActivity: AppCompatActivity() {
                 { _, selectedYear, selectedMonth, selectedDay ->
                     // Actualizar el TextView con la fecha seleccionada
                     val formattedDate = "$selectedYear-${selectedMonth + 1}-$selectedDay"
+                    date = formattedDate
+                    viewModel.getCovidList(formattedDate)
                 },
                 year, month, day
             )
             datePickerDialog.show()
-            //viewModel.uploadPicture(binding.imagen.tag as Uri, this)
         }
     }
 
