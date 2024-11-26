@@ -19,6 +19,11 @@ class MainViewModel: ViewModel() {
     private val _toastMessage = MutableLiveData<String?>()
     val toastMessage: LiveData<String?> get() = _toastMessage
 
+    /**
+     * Recibe una cadena que representa una fecha y la envia a la api para
+     * recuperar los datos de ese día en específico
+     */
+
     fun getCovidList(date: String){
         viewModelScope.launch(Dispatchers.IO) {
             val result: CovidObject? = covidRequirement(date)

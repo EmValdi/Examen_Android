@@ -80,6 +80,11 @@ class MainActivity: AppCompatActivity() {
         }
     }
 
+    /**
+     * Recibe una lista con los datos de la API para generar el recyclerview
+     */
+
+
     private fun setUpRecyclerView(dataForList:ArrayList<CovidObjectItem>){
         binding.RVCovid.setHasFixedSize(true)
         val linearLayoutManager = LinearLayoutManager(
